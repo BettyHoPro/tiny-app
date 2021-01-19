@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const PORT = 3000; 
+const bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -9,12 +11,24 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+
+function generateRandomString(stringInLength) {
+  return Math.random().toString(36).replace("0.","").substring(0,6);
+}
+
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
+});
+
+app.post("/urls", (req, res) => {
+  const shortURL = generateRandomString();
+  const longURL= req.body.longURL;  
+  res.send("Ok");         
 });
 
 app.get("/urls.json",(req, res) => {
@@ -34,6 +48,10 @@ app.get("/fetch", (req, res) => {
   res.send(`a = ${a}`);
 });
 
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
@@ -48,9 +66,15 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL]);
 });
-
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // Log the POST request body to the console
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
 
 app.get("/hello", (req, res) => {
   const templateVars = { greeting: "Hello World!" };
   res.render("hello_world", templateVars);
 });
+
+
+
