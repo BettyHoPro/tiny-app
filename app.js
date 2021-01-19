@@ -27,6 +27,7 @@ const requestHandler = function(request, response) {
       response.statusCode = 404;
       response.write("404 Page Not Found"); 
       response.end();
+      response.render();
     break;
   }
 
