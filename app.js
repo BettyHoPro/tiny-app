@@ -20,7 +20,7 @@ const requestHandler = function(request, response) {
     break;
     case "/urls":
       response.statusCode = 200;
-      response.write("www.lighthouselabs.ca\nwww.google.com\nfacebook.com");
+      response.write("www.lighthouselabs.ca\nwww.google.com");
       response.end();
     break;
     default:
