@@ -1,8 +1,9 @@
 {
   "name": "tiny-app",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "express_server.js",
   "scripts": {
+    "start": "./node_modules/.bin/nodemon -L express_server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -10,7 +11,7 @@
     "url": "git+https://github.com/BettyHoPro/tiny-app.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Betty and bettyvisualtech@gmail.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/BettyHoPro/tiny-app/issues"
@@ -21,6 +22,8 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "description": ""
 }

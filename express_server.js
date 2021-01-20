@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, (req) => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
@@ -71,8 +71,9 @@ app.get("/urls/:shortURL", (req, res) => {
 
 
 app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
   res.redirect(urlDatabase[req.params.shortURL]);
-  //res.redirect(longURL);  ---> not working
+  //res.redirect(longURL); // ---> not working
 });
 
 
@@ -80,6 +81,4 @@ app.get("/hello", (req, res) => {
   const templateVars = { greeting: "Hello World!" };
   res.render("hello_world", templateVars);
 });
-
-
 
