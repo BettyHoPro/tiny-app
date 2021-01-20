@@ -26,6 +26,13 @@ app.listen(PORT, (req) => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+app.post("/urls", (req, res) => {
+  const shortURL = generateRandomString();
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL] = longURL;
+  res.redirect(`/urls/${shortURL}`);         
+});
+
 
 app.post("/urls/:shortURL/delete", (req , res) => {
   delete urlDatabase[req.params.shortURL];
