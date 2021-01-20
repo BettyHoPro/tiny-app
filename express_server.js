@@ -17,6 +17,7 @@ function generateRandomString(stringInLength) {
 };
 
 
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -35,6 +36,12 @@ app.post("/urls", (req, res) => {
   //console.log(urlDatabase[shortURL]);
   //res.render("shortURL");
   res.redirect(`/urls/${shortURL}`);         
+});
+
+
+app.post("/urls/:shortURL/delete", (req , res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
 });
 
 
