@@ -28,11 +28,13 @@
            
               <td><a><%= urls[url] %></a></td>
               <td>
-                <form method="POST" action="/urls/<%= url %>">
-                  <input type="submit" value="Edit" style="color:rgb(19, 120, 252);background-color:#ffffff;border:2px rgb(19, 120, 252) solid ;border-radius:5px">
+                <!-- edit -->
+                <form method="GET" action="/urls/<%= url %>">
+                  <input type="submit" value="Edit" style="color:rgb(19, 120, 252);background-color:#ffffff; border:2px rgb(19, 120, 252) solid ;border-radius:5px">
                 </form>
                 </td>
                 <td>
+                  <!-- delete -->
                <form method="POST" action="/urls/<%= url %>/delete">
                <input type="submit" value="Delete" style="color:rgb(216, 48, 48);background-color:#ffffff;border:2px rgb(216, 48, 48) solid ;border-radius:5px">
                </form>

@@ -40,11 +40,24 @@ app.post("/urls/:shortURL/delete", (req , res) => {
   res.redirect("/urls");
 });
 
+//刪除加上加新項目的變形金剛... 研究看看then catch 能不能合併寫 要不然就是叫一個新的ＩＤ去跑同一個show頁面 去修改連結網址後 再傳回主頁 
+app.post("/urls/:shortURL/", (req, res) => {
+   //this params means crab the information from the already show in the web front side
+   const shortURL = req.params.shortURL; 
+   const longURL = req.body.longURL;
+   urlDatabase[shortURL] = longURL;
+   //delete urlDatabase[req.params.shortURL];
+   //const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+   //res.redirect("urls_index", templateVars);
+   res.redirect("/urls");
+   //res.redirect("/urls");
+   //res.render("/urls_show");
+ });
 
-app.post("/urls/:shortURL", (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-  res.render("urls_show", templateVars);
-});
+ //app.get("/urls/:shortURL/", (req, res ) => {
+
+ //});
+//get routine 
 
 app.get("/urls.json",(req, res) => {
    res.json(urlDatabase);
