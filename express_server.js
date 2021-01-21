@@ -37,7 +37,13 @@ const users = {
 function generateRandomString(stringInLength) {
   return Math.random().toString(36).replace("0.","").substring(0,6);
 };
-
+function emailCheckOut( email, users ) {
+  for (let userID in users) {
+    if (users[userID].email === email){
+      return users[userID].id;
+    }
+  }
+}
 
 // --Event Listener --//
 app.listen(PORT, (req) => {
@@ -94,26 +100,19 @@ app.post("/urls/:shortURL/", (req, res) => {
 app.post("/register", (req, res) => {
   const email = req.body.email; 
   const password = req.body.password;
-  const id = generateRandomString();
-  users[id] = { id, email, password };
-  //console.log(users);
- 
- for(let uID in users ){
-  if (users[uID].email === email) {
-   res.status(400).send("This email has been registered");
-    console.log(email);
-    break;  
-  } else if(email.length<1 || password.length<1 ) {
-    return res.status(400).send("Please fill out the info");
+  if (emailCheckOut(email, users)) {
+   //res.status(400).send("This email has been registered");
+   res.sendStatus(400);
+  } else if( email.length < 1 || password.length < 1 ) {
+    res.sendStatus(400);
+    //return res.status(400).send("Please fill out the info");
    } else {
-    console.log(email);
+    const id = generateRandomString();
+    users[id] = { id, email, password };
     res.cookie("user_id", id);
     res.redirect("/urls");
-    break;
    }
-  } 
 });
-
 
  // -- get -- //
 app.get("/", (req, res) => {
