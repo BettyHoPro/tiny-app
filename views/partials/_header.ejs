@@ -15,15 +15,17 @@
     </div>  
     <!-- log in  -->
     <ul style=" vertical-align:right " style= "height:60px"></ul>
-    <% if(username){ %>
-      <span style='color:#222222; '> Logged in as <%= username %> ! &nbsp;</span>
+    <% if(user){ %>
+      <span style='color:#222222; '> Logged in as <%= user.email %> ! &nbsp;</span>
      <a href = "/logout" >    
       <button type="button" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Logout</button>
       </a>
     <% } else { %>
       <form class="form-inline" action="/login" method="POST">
         <div class="form-group mb-2">
-          <input class="form-control" type="text" name="username" placeholder="userName" required pattern="[a-zA-Z]+" minlength="3" style="width: 200px;"> 
+          <input class="form-control" type="text" name="email" placeholder="Please fill the email"  style="width: 200px;"> 
+          <span>&nbsp; &nbsp;</span>
+          <input class="form-control" type="text" name="password" placeholder="Please fill the password" style="width: 200px;"> 
           <span>&nbsp; &nbsp;</span>
           <button type="submit" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Login</button>
         </div>
