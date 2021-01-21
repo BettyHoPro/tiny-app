@@ -116,6 +116,11 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.get("/register", (req, res) => {
+  const username = req.cookies[ "username" ];
+  const templateVars = {  username };
+  res.render("register",  templateVars);
+});
 
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];

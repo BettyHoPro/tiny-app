@@ -1,7 +1,7 @@
 <header>
 
   <!-- menu bar  -->
-  <nav class="navbar navbar-expand-md navbar-dark bg-success">
+  <nav class="navbar navbar-expand-md navbar-dark bg-success" style= "height:60px">
     <a class="navbar-brand" href="/urls">TinyApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,18 +14,18 @@
 
     </div>  
     <!-- log in  -->
-    <ul style=" vertical-align:right "></ul>
+    <ul style=" vertical-align:right " style= "height:60px"></ul>
     <% if(username){ %>
-      <span style='font-size:1.25rem;line-height:inherit;white-space:nowrap; color: white; '> You are log in as <%= username %> &nbsp;</span>
+      <span style='color:#222222; '> Logged in as <%= username %> ! &nbsp;</span>
      <a href = "/logout" >    
-      <button type="button" class="btn btn-primary">Log out</button>
+      <button type="button" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Logout</button>
       </a>
     <% } else { %>
       <form class="form-inline" action="/login" method="POST">
         <div class="form-group mb-2">
-          <label for="loginName" style='font-size:1.25rem;line-height:inherit;white-space:nowrap; color: white;'>Log in</label>
-          <input class="form-control" type="text" name="username" placeholder="userName" required pattern="[a-zA-Z]+" minlength="3" style="width: 100px; margin: 1em;">
-          <button type="submit" class="btn btn-primary">Login</button>
+          <input class="form-control" type="text" name="username" placeholder="userName" required pattern="[a-zA-Z]+" minlength="3" style="width: 200px;"> 
+          <span>&nbsp; &nbsp;</span>
+          <button type="submit" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Login</button>
         </div>
       </form>
    <% } %>    
