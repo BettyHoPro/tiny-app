@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const PORT = 3000; 
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -16,16 +19,14 @@ function generateRandomString(stringInLength) {
   return Math.random().toString(36).replace("0.","").substring(0,6);
 };
 
-
-
-app.get("/", (req, res) => {
-  res.send("Hello!");
-});
-
+// --Event Listener --//
 app.listen(PORT, (req) => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+// -- post -- //  
+//GET : crab information from front end  
+//POST : sending info from backend to front-end
 // new short URL add
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
@@ -40,19 +41,28 @@ app.post("/urls/:shortURL/delete", (req , res) => {
   res.redirect("/urls");
 });
 
+// editing feature
 app.post("/urls/:shortURL/", (req, res) => {
    //objects are always unique elements.  Writing one always replaces the existing
    //this params means crab the information from the already show in the web front side
    const shortURL = req.params.shortURL; 
    const longURL = req.body.longURL;
    urlDatabase[shortURL] = longURL;
-   //delete urlDatabase[req.params.shortURL];
-   //const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-   //res.redirect("urls_index", templateVars);
    res.redirect("/urls");
-   //res.redirect("/urls");
-   //res.render("/urls_show");
  });
+
+ // -- get -- //
+app.get("/", (req, res) => {
+  console.log(req.cookies);
+  res.send("Hello!");
+});
+
+//-- cookie -- //
+app.get("/set",function(req,res){
+  res.cookie('username','cookie value',{maxAge:60000}); 
+  res.send("set up cookie successfully !");
+});
+//app.listen(3000,"localhost");
 
 
 app.get("/urls.json",(req, res) => {
