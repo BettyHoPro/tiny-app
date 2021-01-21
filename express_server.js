@@ -78,16 +78,12 @@ app.post("/urls/:shortURL/", (req, res) => {
   //userDatabase[userName] = userName;
   let user;
   for(let uID in users ){
-     if (users[uID].email === userEmail){
+    if (users[uID].email === userEmail){
       if (users[uID].password === userPW){
         user = users[uID];
         break;
       }   
-    } 
-    // if（ userEmail.isEmpty() || userPW.isEmpty() ){
-    //   res.write(400, {"Content-Type": "application/json"});
-    //   res.end("updated Successfully");
-    // }
+    }
   }
   console.log(user);
   res.cookie("user_id", user.id );
@@ -100,9 +96,22 @@ app.post("/register", (req, res) => {
   const password = req.body.password;
   const id = generateRandomString();
   users[id] = { id, email, password };
-  console.log(users);
-  res.cookie("user_id", id);
-  res.redirect("/urls");
+  //console.log(users);
+ 
+ for(let uID in users ){
+  if (users[uID].email === email) {
+   res.status(400).send("This email has been registered");
+    console.log(email);
+    break;  
+  } else if(email.length<1 || password.length<1 ) {
+    return res.status(400).send("Please fill out the info");
+   } else {
+    console.log(email);
+    res.cookie("user_id", id);
+    res.redirect("/urls");
+    break;
+   }
+  } 
 });
 
 

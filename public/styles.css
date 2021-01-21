@@ -2,14 +2,14 @@
 .login_title{
   color:#222222;
 } 
-.header_btn{
-  /* display: inline-block; */
+/* #header_btn{
+  
   padding: 6px 18px;
   color:#222222;
   background-color:transparent; 
   border:2px #222222 solid;
   border-radius:5px;
-}
+} */
 /* index */
 .index_btn_edit{
   padding: 6px 18px;

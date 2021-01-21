@@ -1,5 +1,8 @@
+<head>
+  <link rel = "stylesheet" href= "styles.css">
+</head>
 <header>
-
+  
   <!-- menu bar  -->
   <nav class="navbar navbar-expand-md navbar-dark bg-success" style= "height:60px">
     <a class="navbar-brand" href="/urls">TinyApp</a>
@@ -18,7 +21,8 @@
     <% if(user){ %>
       <span> Logged in as <%= user.email %> ! &nbsp;</span>
      <a href = "/logout" >    
-      <button class="header_btn"type="button" class="btn btn-primary" >Logout</button>
+      <button type="button" class="btn btn-primary" style="padding: 6px 18px;
+      color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;">Logout</button>
       </a>
     <% } else { %>
       <form class="form-inline" action="/login" method="POST">
@@ -27,7 +31,15 @@
           <span>&nbsp; &nbsp;</span>
           <input class="form-control" type="text" name="password" placeholder="Fill out your password" required style="width: 200px;"> 
           <span>&nbsp; &nbsp;</span>
-          <button class="header_btn" type="submit" class="btn btn-primary" >Login</button>
+          <button type="submit" class="btn btn-primary" style="padding: 6px 18px;
+          color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;" >Login</button>
+        </div>
+      </form>
+      <span>&nbsp; &nbsp;</span>
+      <form class="form-inline" action="/register" method="GET">
+        <div class="form-group mb-2">
+          <button type="submit" class="btn btn-primary" style="padding: 6px 18px;
+          color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;" >Register</button>
         </div>
       </form>
    <% } %>    
