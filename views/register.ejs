@@ -11,23 +11,24 @@
   
     <div class="card-footer text-muted">
       <main style="margin: 1em;">
-        <h1>Account Setting</h1>
+        <h1>Register Your Account</h1>
         <ul style=" display:flex;justify-content: center; align-items: center; ">  <!-- submit -->
           <form action="/register" method="POST">
               <div>
-                <label for="longURL">Your email: &nbsp;</label>
-                <input class="form-control" type="email" name="email" placeholder="fill out your email" style="width: 300px; margin: 0.5em;" >
+                <label for="longURL" style="margin:auto;" >Your email: &nbsp;</label>
+                <input class="form-control" type="email" name="email" placeholder="Fill out your email" required style=" width:300px; 
+                margin: 0.5em;">
               </div>
               <div>
-                <label for="longURL">Your password: &nbsp;</label>
-                <input class="form-control" type="password" name="password" placeholder="fill out your password" style="width: 300px; margin: 0.5em;" >
+                <label for="longURL" style="margin:auto;" >Your password: &nbsp;</label>
+                <input class="form-control" type="password" name="password" placeholder="Fill out your password" required style=" width:300px; 
+                margin: 0.5em;" >
               </div>
               <div>
-                <button type="submit" class="btn btn-primary" >Submit</button>
+                <button type="submit" class="btn btn-primary" style=" width:300px;" >Submit</button>
                 <!-- pattern="[0-9a-fA-F]{4,8}"
                 title="Enter a password consisting of 4-8 hexadecimal digits"  -->
               </div>
-
         </form>
         </ul>
       </main>

@@ -4,7 +4,7 @@
  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <link rel = "stylesheet" href= "styles.css">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <title>TinyApp</title>
@@ -31,13 +31,13 @@
               <td>
                 <!-- edit -->
                 <form method="GET" action="/urls/<%= url %>">
-                  <input type="submit" value="Edit" style="color:rgb(19, 120, 252);background-color:#ffffff; border:2px rgb(19, 120, 252) solid ;border-radius:5px">
+                  <input class="index_btn_edit" type="submit" value="Edit" >
                 </form>
                 </td>
                 <td>
                   <!-- delete -->
                <form method="POST" action="/urls/<%= url %>/delete">
-               <input type="submit" value="Delete" style="color:rgb(216, 48, 48);background-color:#ffffff;border:2px rgb(216, 48, 48) solid ;border-radius:5px">
+               <input class="index_btn_delete" type="submit" value="Delete">
                </form>
              </td>
           </tr>

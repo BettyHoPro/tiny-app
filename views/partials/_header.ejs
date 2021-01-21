@@ -16,18 +16,18 @@
     <!-- log in  -->
     <ul style=" vertical-align:right " style= "height:60px"></ul>
     <% if(user){ %>
-      <span style='color:#222222; '> Logged in as <%= user.email %> ! &nbsp;</span>
+      <span> Logged in as <%= user.email %> ! &nbsp;</span>
      <a href = "/logout" >    
-      <button type="button" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Logout</button>
+      <button class="header_btn"type="button" class="btn btn-primary" >Logout</button>
       </a>
     <% } else { %>
       <form class="form-inline" action="/login" method="POST">
         <div class="form-group mb-2">
-          <input class="form-control" type="text" name="email" placeholder="Please fill the email"  style="width: 200px;"> 
+          <input class="form-control" type="text" name="email" placeholder="Fill out your email" required style="width: 200px;"> 
           <span>&nbsp; &nbsp;</span>
-          <input class="form-control" type="text" name="password" placeholder="Please fill the password" style="width: 200px;"> 
+          <input class="form-control" type="text" name="password" placeholder="Fill out your password" required style="width: 200px;"> 
           <span>&nbsp; &nbsp;</span>
-          <button type="submit" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Login</button>
+          <button class="header_btn" type="submit" class="btn btn-primary" >Login</button>
         </div>
       </form>
    <% } %>    

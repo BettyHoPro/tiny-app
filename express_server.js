@@ -4,10 +4,11 @@ const PORT = 3000;
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set("view engine", "ejs");
+app.use(express.static('public'));// for css or js
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -81,10 +82,12 @@ app.post("/urls/:shortURL/", (req, res) => {
       if (users[uID].password === userPW){
         user = users[uID];
         break;
-      } 
-    // } else {
-    //   res.alert("The email has not registered yet!");      
-    }
+      }   
+    } 
+    // if（ userEmail.isEmpty() || userPW.isEmpty() ){
+    //   res.write(400, {"Content-Type": "application/json"});
+    //   res.end("updated Successfully");
+    // }
   }
   console.log(user);
   res.cookie("user_id", user.id );
