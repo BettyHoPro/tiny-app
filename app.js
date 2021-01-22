@@ -23,13 +23,9 @@ const requestHandler = function(request, response) {
     break;
   }
 }
-
-
 const server = http.createServer(requestHandler);
 console.log('Server created'); 
-
 server.listen(PORT, () => {
   console.log(`Server listening on: http://localhost:${PORT}`);
 });
-
 console.log('Last line (after .listen call)'); 

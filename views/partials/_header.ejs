@@ -2,7 +2,6 @@
   <link rel = "stylesheet" href= "styles.css">
 </head>
 <header>
-  
   <!-- menu bar  -->
   <nav class="navbar navbar-expand-md navbar-dark bg-success" style= "height:60px">
     <a class="navbar-brand" href="/urls">TinyApp</a>
@@ -14,39 +13,29 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
-
     </div>  
     <!-- log in  -->
     <ul style=" vertical-align:right " style= "height:60px"></ul>
-<<<<<<< HEAD
-    <% if(username){ %>
-      <span style='color:#222222; '> Logged in as <%= username %> ! &nbsp;</span>
-     <a href = "/logout" >    
-      <button type="button" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Logout</button>
-=======
     <% if(user){ %>
       <span> Logged in as <%= user.email %> ! &nbsp;</span>
-     <a href = "/logout" >    
+    <a href = "/logout" >    
       <button type="button" class="btn btn-primary " style="padding: 6px 18px;
       color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;">Logout</button>
->>>>>>> feature/user-registration
-      </a>
+    </a>
     <% } else { %>
       <form class="form-inline" action="/login" method="GET">
         <div class="form-group mb-2">
+          <!-- <input class="form-control" type="email" name="email" placeholder="Fill out your email" required style="width: 200px;"> 
+          <span>&nbsp; &nbsp;</span>
+          <input class="form-control" type="text" name="password" placeholder="Fill out your password" required style="width: 200px;"> 
+          <span>&nbsp; &nbsp;</span> -->
           <button type="submit" class="btn btn-primary" style="border:1px solid transparent;background-color:transparent; color:#a1d09e;">Login</button>
         </div>
       </form>
       <span>&nbsp; &nbsp;</span>
       <form class="form-inline" action="/register" method="GET">
         <div class="form-group mb-2">
-<<<<<<< HEAD
-          <input class="form-control" type="text" name="username" placeholder="userName" required pattern="[a-zA-Z]+" minlength="3" style="width: 200px;"> 
-          <span>&nbsp; &nbsp;</span>
-          <button type="submit" class="btn btn-primary" style="color:#222222;background-color:transparent; border:2px #222222 solid ;border-radius:5px">Login</button>
-=======
           <button type="submit" class="btn btn-primary" style="border:1px solid transparent;background-color:transparent; color:#a1d09e;">Register</button>
->>>>>>> feature/user-registration
         </div>
       </form>
    <% } %>    
