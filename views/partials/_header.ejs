@@ -25,12 +25,12 @@
       color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;">Logout</button>
       </a>
     <% } else { %>
-      <form class="form-inline" action="/login" method="POST">
+      <form class="form-inline" action="/login" method="GET">
         <div class="form-group mb-2">
-          <input class="form-control" type="text" name="email" placeholder="Fill out your email" required style="width: 200px;"> 
+          <!-- <input class="form-control" type="email" name="email" placeholder="Fill out your email" required style="width: 200px;"> 
           <span>&nbsp; &nbsp;</span>
           <input class="form-control" type="text" name="password" placeholder="Fill out your password" required style="width: 200px;"> 
-          <span>&nbsp; &nbsp;</span>
+          <span>&nbsp; &nbsp;</span> -->
           <button type="submit" class="btn btn-primary" style="padding: 6px 18px;
           color:#222222; background-color:transparent; border:2px #222222 solid;border-radius:5px;" >Login</button>
         </div>

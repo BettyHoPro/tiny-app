@@ -121,6 +121,7 @@ app.get("/", (req, res) => {
 });
 
 
+
 //app.listen(3000,"localhost");
 
 
@@ -172,6 +173,13 @@ app.get("/register", (req, res) => {
   const user = users[userID];
   const templateVars = {  user };
   res.render("register",  templateVars);
+});
+
+app.get("/login", (req, res) => {
+  const userID = req.cookies["user_id"];
+  const user = users[userID];
+  const templateVars = {  user };
+  res.render("login",  templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
