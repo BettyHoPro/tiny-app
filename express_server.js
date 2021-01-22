@@ -9,10 +9,27 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static('public'));// for css or js
 
+// const urlDatabase = {
+//   "b2xVn2": "http://www.lighthouselabs.ca",
+//   //短的算出來 random連結    長的連結 原本網址
+//   "9sm5xK": "http://www.google.com"
+// };
+
+// const changeData = urlDatabase.urlDatabase[shortURL].Values={
+//   longURL, 
+//   userID
+// } 
+// shortURL ---> urlDatabase[key]
+// longURL ---> urlDatabase[shortURL].longURL
+// userID came from users{}
+// userID ---> urlDatabase[shortURL].userID
+// userID  -- > match if userID === urlDatabase[shortURL].userID => urlDatabase[shortURL]
+
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
+
 
 const users = { 
   "userRandomID": {
@@ -57,10 +74,12 @@ app.listen(PORT, (req) => {
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL] = {longURL: longURL, userID: req.cookies.user_id};
   res.redirect(`/urls/${shortURL}`);         
 });
 
+
+// no need to change
 // deleting feature
 app.post("/urls/:shortURL/delete", (req , res) => {
   delete urlDatabase[req.params.shortURL];
@@ -73,7 +92,7 @@ app.post("/urls/:shortURL/", (req, res) => {
    //this params means crab the information from the already show in the web front side
    const shortURL = req.params.shortURL; 
    const longURL = req.body.longURL;
-   urlDatabase[shortURL] = longURL;
+   urlDatabase[shortURL].longURL = longURL;
    res.redirect("/urls");
  });
 
@@ -141,6 +160,7 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", templateVars);
 });
 
+// ---- here --- //
 app.get("/urls", (req, res) => {
   // add user name 
   const userID = req.cookies["user_id"];
@@ -152,7 +172,7 @@ app.get("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.cookies["user_id"];
   const user = users[userID];
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user };
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user };
   res.render("urls_show", templateVars);
 });
 
@@ -171,8 +191,8 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(urlDatabase[req.params.shortURL]);
+  const longURL = urlDatabase[req.params.shortURL].longURL;
+  res.redirect(urlDatabase[req.params.shortURL].longURL);
 });
 
 

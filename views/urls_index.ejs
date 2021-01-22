@@ -17,8 +17,10 @@
         <tr>
           <th scope="col">Short URL</th>
           <th scope="col">Long URL</th>
+          <% if (user) { %>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
+          <% } %>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +28,8 @@
           <tr>
             <td></a><%= url %></a></td>
            
-            <td><a><%= urls[url] %></a></td>
+            <td><a><%= urls[url].longURL %></a></td>
+            <% if (user) { %>
             <td>
                 <!-- edit -->
               <form method="GET" action="/urls/<%= url %>">
@@ -39,6 +42,7 @@
                 <input class="index_btn_delete" type="submit" value="Delete">
               </form>
             </td>
+           <% } %>
           </tr>
         <% } %>
       </tbody>
