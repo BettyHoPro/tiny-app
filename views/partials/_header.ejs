@@ -11,7 +11,11 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
+      <% if(user){ %>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+      <% } else { %>
+        <a class="nav-item nav-link" href="/urls">Create New URL</a>
+      <% } %>
       </div>
     </div>  
     <!-- log in  -->
@@ -25,10 +29,6 @@
     <% } else { %>
       <form class="form-inline" action="/login" method="GET">
         <div class="form-group mb-2">
-          <!-- <input class="form-control" type="email" name="email" placeholder="Fill out your email" required style="width: 200px;"> 
-          <span>&nbsp; &nbsp;</span>
-          <input class="form-control" type="text" name="password" placeholder="Fill out your password" required style="width: 200px;"> 
-          <span>&nbsp; &nbsp;</span> -->
           <button type="submit" class="btn btn-primary" style="border:1px solid transparent;background-color:transparent; color:#a1d09e;">Login</button>
         </div>
       </form>
