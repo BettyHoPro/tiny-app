@@ -50,7 +50,7 @@ function generateRandomString(stringInLength) {
 function emailCheckOut( email, users ) {
   for (let userID in users) {
     if (users[userID].email === email){
-      return users[userID].id;
+      return users[userID];
     }
   }
 }
@@ -100,13 +100,10 @@ app.post("/urls/:shortURL/", (req, res) => {
 app.post("/login", (req, res) => {
   const email = req.body.email; 
   const password = req.body.password;
-  let user;
-  if (emailCheckOut(email, users)) {
-    if (pwCheckOut(password, users)){
-      const id = generateRandomString();
-      users[id] = { id, email, password };
-      console.log(users);
-      res.cookie("user_id", users[id].id );
+  const user = emailCheckOut(email, users);
+  if (user) {
+    if (user.password === password) {
+      res.cookie("user_id", user.id );
       res.redirect("/urls");
     } 
     res.sendStatus(403); 
@@ -164,8 +161,18 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls", (req, res) => {
   // add user name 
   const userID = req.cookies["user_id"];
+  if(!userID){
+    res.redirect("/login")
+    return
+  } 
   const user = users[userID]; //obj
-  const templateVars = { urls: urlDatabase, user };
+  let myUrls = {};
+  for(const shortUrl in urlDatabase){
+    if(urlDatabase[shortUrl].userID === userID){
+      myUrls[shortUrl] = urlDatabase[shortUrl]
+    }
+  }
+  const templateVars = { urls: myUrls, user };
   res.render("urls_index", templateVars);
 });
 
