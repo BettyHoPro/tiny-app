@@ -116,12 +116,22 @@ app.post("/login", (req, res) => {
   if (!user) {
     res.sendStatus(403);
   } 
-  if (!bcrypt.compareSync(user.password, hashedPassword)) {
-    res.sendStatus(403);
-  } 
-  console.log(hashedPassword);
-  res.cookie("user_id", user.id );
-  res.redirect("/urls");
+  // Below is not working ... no idea
+  // bcrypt.compareSync(user.password, hashedPassword, (err, result) => {
+  //   if (result) {
+  //     res.sendStatus(403);
+  //     }
+  //     res.cookie("user_id", user.id );
+  //     res.redirect("/urls");  
+  // });
+  
+  bcrypt.compare(password, user.password, (err, result) => {
+    if (!result) {
+      return res.sendStatus(403);
+    }
+    res.cookie("user_id", user.id );
+    res.redirect("/urls");
+  });
 });
 
  // register
@@ -129,18 +139,26 @@ app.post("/register", (req, res) => {
 
   //const password = "purple-monkey-dinosaur"; // found in the req.params object
   const password = req.body.password;
-  const hashedPassword = bcrypt.hashSync(password, 10);
   const email = req.body.email;
   if (emailCheckOut(email, users)) {
     res.sendStatus(400);
-  } else if(email.length < 1 || password.length < 1) {
+  } 
+  if(email.length < 1 || password.length < 1) {
     res.sendStatus(400);
-  } else {
-    const id = generateRandomString();
-    users[id] = { id, email, password };
-    res.cookie("user_id", id);
-    res.redirect("/urls");
-  }
+  } 
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hash) => {
+      const id = generateRandomString();
+      users[id] = { 
+        id, 
+        email, 
+        password: hash
+      };
+      res.cookie("user_id", id);
+      console.log(users);
+      res.redirect("/urls");
+    })
+  });
 });
 
  // -- get -- //
