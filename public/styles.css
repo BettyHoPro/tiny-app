@@ -1,0 +1,30 @@
+/* Share */
+.title_page_module{
+  color:#222222;
+  font-size:36px;
+}
+/* Header */
+.login_title{
+  color:#222222;
+}
+
+/* index */
+.index_btn_edit{
+  padding: 6px 18px;
+  color:rgb(19, 120, 252);
+  background-color:#ffffff; 
+  border:2px rgb(19, 120, 252) solid ;
+  border-radius:5px;
+}
+
+.index_btn_delete{
+  padding: 6px 18px;
+  color:rgb(216, 48, 48);
+  background-color:#ffffff;
+  border:2px rgb(216, 48, 48) solid;
+  border-radius:5px;
+}
+
+/* register */
+
+

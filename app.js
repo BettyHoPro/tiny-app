@@ -3,14 +3,6 @@ const PORT = 3000;
 
 // a function which handles requests and sends response
 const requestHandler = function(request, response) {
-  // if (request.url === "/") {
-  //   response.end("Welcome!");
-  // } else if (request.url === "/urls") {
-  //   response.end("www.lighthouselabs.ca\nwww.google.com");
-  // } else {
-  //   response.statusCode = 404;
-  //   response.end("404 Page Not Found");
-  // }
   const route = `${request.url}`;
   switch (route){
     case "/":
@@ -30,7 +22,6 @@ const requestHandler = function(request, response) {
       response.render();
     break;
   }
-
 }
 
 
