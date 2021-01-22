@@ -44,6 +44,23 @@ function emailCheckOut( email, users ) {
     }
   }
 }
+function emailAndPWCheckOut( email, password, users ) {
+  for (let userID in users) {
+    if (users[userID].email === email){
+      return users[userID].id;
+      if (users[uID].password === userPW){
+        return  user = users[uID];
+      } 
+    }
+  }
+}
+function pwCheckOut( password, users ) {
+  for (let userID in users) {
+    if (users[userID].password === password){
+      return users[userID].id;
+    }
+  }
+}
 
 // --Event Listener --//
 app.listen(PORT, (req) => {
@@ -78,22 +95,21 @@ app.post("/urls/:shortURL/", (req, res) => {
  });
 
  //log in submit
- app.post("/login", (req, res) => {
-  const userEmail = req.body.email; 
-  const userPW = req.body.password;
-  //userDatabase[userName] = userName;
+app.post("/login", (req, res) => {
+  const email = req.body.email; 
+  const password = req.body.password;
   let user;
-  for(let uID in users ){
-    if (users[uID].email === userEmail){
-      if (users[uID].password === userPW){
-        user = users[uID];
-        break;
-      }   
-    }
-  }
-  console.log(user);
-  res.cookie("user_id", user.id );
-  res.redirect("/urls");
+  if (emailCheckOut(email, users)) {
+    if (pwCheckOut(password, users)){
+      const id = generateRandomString();
+      users[id] = { id, email, password };
+      console.log(users);
+      res.cookie("user_id", users[id].id );
+      res.redirect("/urls");
+    } 
+    res.sendStatus(403); 
+  } 
+  res.sendStatus(403);
 });
 
  // register
@@ -136,9 +152,6 @@ app.get("/hello", (req, res) => {
 app.get("/set", (req, res) => {
   const a = 1;
   res.send(`a = ${a}`);
-  //cookie
-  // res.cookie('userName','cookie value',{maxAge:60000}); 
-  // res.send("set up cookie successfully !");
 });
 
 app.get("/fetch", (req, res) => {
@@ -153,7 +166,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  // add username 
+  // add user name 
   const userID = req.cookies[ "user_id" ];
   const user = users[ userID ]; //obj
   console.log(user);

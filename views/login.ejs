@@ -3,42 +3,29 @@
 <head>
   <link rel = "stylesheet" href= "styles.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <title>Register - TinyApp Example</title>
+  <title>Login - TinyApp Example</title>
 </head>
 <body>
   <%- include('partials/_header') %>
  
-  <div class="card text-center">
-  
-    <div class="card-footer text-muted">
+  <div class="form-group mb-2" >
       <main style="margin: 1em;">
-        <h1>Log In Your Account</h1>
-        <ul style=" display:flex;justify-content: center; align-items: center; ">  <!-- submit -->
+        <h1 class="title_page_module">Login</h1> 
           <form action="/login" method="POST">
               <div>
-                <label for="longURL" style="margin:auto;" >Your email: &nbsp;</label>
-                <input class="form-control" type="email" name="email" placeholder="Fill out your email" style=" width:300px; 
-                margin: 0.5em;">
+                <label for="longURL" style="margin:0.2em 0em 0.5em 0em;"  >Email address &nbsp;</label>
+                <input class="form-control" type="email" name="email" placeholder="Enter email" style=" width:300px;">
               </div>
               <div>
-                <label for="longURL" style="margin:auto;" >Your password: &nbsp;</label>
-                <input class="form-control" type="password" name="password" placeholder="Fill out your password" style=" width:300px; 
-                margin: 0.5em;" >
+                <label for="longURL" style="margin:0.8em 0em 0.5em 0em;">Password &nbsp;</label>
+                <input class="form-control" type="password" name="password" placeholder="Password" style=" width:300px;">
               </div>
               <div>
-                <button type="submit" class="btn btn-primary" style=" width:300px;" >Log In</button>
+                <button type="submit" class="btn btn-primary" style="margin:0.8em 0em 0.5em 0em;">LogIn</button>
                 <!-- pattern="[0-9a-fA-F]{4,8}"
                 title="Enter a password consisting of 4-8 hexadecimal digits"  -->
               </div>
          </form>
-         </ul>
-         <ul style=" display:flex;justify-content: center; align-items: center; "> 
-         <div>
-        <form action="/register" method="GET">
-            <button type="submit" class="btn btn-primary" style=" width:300px; border:2px #007bff solid; color:#007bff; background-color:transparent;" >Register An Account</button>
-       </form>
-       </div>
-       </ui>
       </main>
     </div>
   </div>

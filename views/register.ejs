@@ -8,32 +8,25 @@
 <body>
   <%- include('partials/_header') %>
  
-  <div class="card text-center">
-  
-    <div class="card-footer text-muted">
-      <main style="margin: 1em;">
-        <h1>Register Your Account</h1>
-        <ul style=" display:flex;justify-content: center; align-items: center; ">  <!-- submit -->
-          <form action="/register" method="POST">
-              <div>
-                <label for="longURL" style="margin:auto;" >Your email: &nbsp;</label>
-                <input class="form-control" type="email" name="email" placeholder="Fill out your email" style=" width:300px; 
-                margin: 0.5em;">
-              </div>
-              <div>
-                <label for="longURL" style="margin:auto;" >Your password: &nbsp;</label>
-                <input class="form-control" type="password" name="password" placeholder="Fill out your password" style=" width:300px; 
-                margin: 0.5em;" >
-              </div>
-              <div>
-                <button type="submit" class="btn btn-primary" style=" width:300px;" >Submit</button>
-                <!-- pattern="[0-9a-fA-F]{4,8}"
+  <div class="form-group mb-2" >
+    <main style="margin: 1em;">
+      <h1 class="title_page_module">Create Account</h1>
+      <form action="/register" method="POST">
+        <div>
+          <label for="longURL" style="margin:0.2em 0em 0.5em 0em;" >Email address</label>
+          <input class="form-control" type="email" name="email" placeholder="Enter email" style=" width:300px;">
+        </div>
+        <div>
+          <label for="longURL" style="margin:0.8em 0em 0.5em 0em;">Password</label>
+          <input class="form-control" type="password" name="password" placeholder="Password" style=" width:300px;">
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary" style="margin:0.8em 0em 0.5em 0em;">Register</button>
+                <!-- pattern="[0-9a-fA-F]{4,8}
                 title="Enter a password consisting of 4-8 hexadecimal digits"  -->
-              </div>
-        </form>
-        </ul>
-      </main>
-    </div>
+        </div>
+      </form>
+    </main>
   </div>
   
   <!-- Bootstrap JS -->
