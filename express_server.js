@@ -24,7 +24,15 @@ app.use(express.static('public'));// for css or js
 // userID came from users{}
 // userID ---> urlDatabase[shortURL].userID
 // userID  -- > match if userID === urlDatabase[shortURL].userID => urlDatabase[shortURL]
-
+const urlsForUser = (id) => {
+  const myUrls = {};
+  for(const shortUrl in urlDatabase){
+    if(urlDatabase[shortUrl].userID === id){
+      myUrls[shortUrl] = urlDatabase[shortUrl];
+    }
+  }
+  return myUrls;
+}
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
@@ -166,12 +174,8 @@ app.get("/urls", (req, res) => {
     return
   } 
   const user = users[userID]; //obj
-  let myUrls = {};
-  for(const shortUrl in urlDatabase){
-    if(urlDatabase[shortUrl].userID === userID){
-      myUrls[shortUrl] = urlDatabase[shortUrl]
-    }
-  }
+  let myUrls = urlsForUser(userID);
+  
   const templateVars = { urls: myUrls, user };
   res.render("urls_index", templateVars);
 });
