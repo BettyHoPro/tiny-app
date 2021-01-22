@@ -3,15 +3,18 @@ const app = express();
 const PORT = 3000; 
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+//const bcrypt = require('bcryptjs');// if running out side of vm 
+// const morgan = require('morgan');// to see what is the get value in terminal 
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+// app.use(morgan('dev'));
 app.use(express.static('public'));// for css or js
 
 // const urlDatabase = {
 //   "b2xVn2": "http://www.lighthouselabs.ca",
-//   //短的算出來 random連結    長的連結 原本網址
 //   "9sm5xK": "http://www.google.com"
 // };
 
@@ -108,21 +111,26 @@ app.post("/urls/:shortURL/", (req, res) => {
 app.post("/login", (req, res) => {
   const email = req.body.email; 
   const password = req.body.password;
+  const hashedPassword = bcrypt.hashSync(password, 10);
   const user = emailCheckOut(email, users);
-  if (user) {
-    if (user.password === password) {
-      res.cookie("user_id", user.id );
-      res.redirect("/urls");
-    } 
-    res.sendStatus(403); 
+  if (!user) {
+    res.sendStatus(403);
   } 
-  res.sendStatus(403);
+  if (!bcrypt.compareSync(user.password, hashedPassword)) {
+    res.sendStatus(403);
+  } 
+  console.log(hashedPassword);
+  res.cookie("user_id", user.id );
+  res.redirect("/urls");
 });
 
  // register
 app.post("/register", (req, res) => {
-  const email = req.body.email; 
+
+  //const password = "purple-monkey-dinosaur"; // found in the req.params object
   const password = req.body.password;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const email = req.body.email;
   if (emailCheckOut(email, users)) {
     res.sendStatus(400);
   } else if(email.length < 1 || password.length < 1) {
@@ -219,3 +227,6 @@ app.get("/logout", (req, res) => {
   res.redirect("/urls");
 });
 
+app.get("*", (req, res) => {
+  res.redirect("/login");
+});
