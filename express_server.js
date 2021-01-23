@@ -1,11 +1,12 @@
 const express = require("express");
+const getUserByEmail = require("./helpers");
 const app = express();
-const PORT = 3000; 
+const PORT = 3000;
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-//const bcrypt = require('bcryptjs');// if running out side of vm 
-// const morgan = require('morgan');// to see what is the get value in terminal 
+//const bcrypt = require('bcryptjs');// if running out side of vm
+// const morgan = require('morgan');// to see what is the get value in terminal
 
 //app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,7 +16,7 @@ app.use(express.static('public'));// for css or js
 app.use(cookieSession({
   name: 'session',
   keys: ["this is a bubble tea shop"],
-}))
+}));
 
 // const urlDatabase = {
 //   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -23,9 +24,9 @@ app.use(cookieSession({
 // };
 
 // const changeData = urlDatabase.urlDatabase[shortURL].Values={
-//   longURL, 
+//   longURL,
 //   userID
-// } 
+// }
 // shortURL ---> urlDatabase[key]
 // longURL ---> urlDatabase[shortURL].longURL
 // userID came from users{}
@@ -33,45 +34,39 @@ app.use(cookieSession({
 // userID  -- > match if userID === urlDatabase[shortURL].userID => urlDatabase[shortURL]
 const urlsForUser = (id) => {
   const myUrls = {};
-  for(const shortUrl in urlDatabase){
-    if(urlDatabase[shortUrl].userID === id){
+  for (const shortUrl in urlDatabase) {
+    if (urlDatabase[shortUrl].userID === id) {
       myUrls[shortUrl] = urlDatabase[shortUrl];
     }
   }
   return myUrls;
-}
+};
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
 
-const users = { 
+const users = {
   "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
+    id: "userRandomID",
+    email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
+  "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
     password: "dishwasher-funk"
   }
 };
 
 function generateRandomString(stringInLength) {
   return Math.random().toString(36).replace("0.","").substring(0,6);
-};
-function emailCheckOut( email, users ) {
-  for (let userID in users) {
-    if (users[userID].email === email){
-      return users[userID];
-    }
-  }
 }
-function pwCheckOut( password, users ) {
+
+function pwCheckOut(password, users) {
   for (let userID in users) {
-    if (users[userID].password === password){
+    if (users[userID].password === password) {
       return users[userID].id;
     }
   }
@@ -82,15 +77,15 @@ app.listen(PORT, (req) => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-// -- post -- //  
-//GET : crab information from front end  
+// -- post -- //
+//GET : crab information from front end
 //POST : sending info from backend to front-end
 // new short URL add
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
   urlDatabase[shortURL] = {longURL: longURL, userID: req.session.user_id};
-  res.redirect(`/urls/${shortURL}`);         
+  res.redirect(`/urls/${shortURL}`);
 });
 
 
@@ -103,30 +98,30 @@ app.post("/urls/:shortURL/delete", (req , res) => {
 
 // editing feature
 app.post("/urls/:shortURL/", (req, res) => {
-   //objects are always unique elements.  Writing one always replaces the existing
-   //this params means crab the information from the already show in the web front side
-   const shortURL = req.params.shortURL; 
-   const longURL = req.body.longURL;
-   urlDatabase[shortURL].longURL = longURL;
-   res.redirect("/urls");
- });
+  //objects are always unique elements.  Writing one always replaces the existing
+  //this params means crab the information from the already show in the web front side
+  const shortURL = req.params.shortURL;
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL].longURL = longURL;
+  res.redirect("/urls");
+});
 
- //log in submit
+//log in submit
 app.post("/login", (req, res) => {
-  const email = req.body.email; 
+  const email = req.body.email;
   const password = req.body.password;
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const user = emailCheckOut(email, users);
+  const user = getUserByEmail(email, users);
   if (!user) {
     res.sendStatus(403);
-  } 
+  }
   // Below is not working ... no idea
   // bcrypt.compareSync(user.password, hashedPassword, (err, result) => {
   //   if (result) {
   //     res.sendStatus(403);
   //     }
   //     res.cookie("user_id", user.id );
-  //     res.redirect("/urls");  
+  //     res.redirect("/urls");
   // });
   // if (!bcrypt.compareSync( password, hashedPassword)){
   //   req.session.user_id = user.id;
@@ -141,40 +136,40 @@ app.post("/login", (req, res) => {
   });
 });
 
- // register
+// register
 app.post("/register", (req, res) => {
 
   //const password = "purple-monkey-dinosaur"; // found in the req.params object
   const password = req.body.password;
   const email = req.body.email;
-  if (emailCheckOut(email, users)) {
+  if (getUserByEmail(email, users)) {
     res.sendStatus(400);
-  } 
-  if(email.length < 1 || password.length < 1) {
+  }
+  if (email.length < 1 || password.length < 1) {
     res.sendStatus(400);
-  } 
+  }
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, (err, hash) => {
       const id = generateRandomString();
-      users[id] = { 
-        id, 
-        email, 
+      users[id] = {
+        id,
+        email,
         password: hash
       };
       req.session.user_id = id;
       res.redirect("/urls");
-    })
+    });
   });
 });
 
- // -- get -- //
+// -- get -- //
 app.get("/", (req, res) => {
   //console.log(req.cookies);
   res.send("Hello!");
 });
 
 app.get("/urls.json",(req, res) => {
-   res.json(urlDatabase);
+  res.json(urlDatabase);
 });
 
 app.get("/hello", (req, res) => {
@@ -193,18 +188,18 @@ app.get("/fetch", (req, res) => {
 app.get("/urls/new", (req, res) => {
   const userID = req.session["user_id"];
   const user = users[ userID ];
-  const templateVars = {  user };
+  const templateVars = { user };
   res.render("urls_new", templateVars);
 });
 
 // ---- here --- //
 app.get("/urls", (req, res) => {
-  // add user name 
+  // add user name
   const userID = req.session["user_id"];
-  if(!userID){
-    res.redirect("/login")
-    return
-  } 
+  if (!userID) {
+    res.redirect("/login");
+    return;
+  }
   const user = users[userID]; //obj
   let myUrls = urlsForUser(userID);
   
