@@ -65,7 +65,7 @@ const generateRandomString = function() {
 };
 
 // --Event Listener --//
-app.listen(PORT, (req) => {
+app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
@@ -102,30 +102,24 @@ app.post("/urls/:shortURL/", (req, res) => {
 app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  const hashedPassword = bcrypt.hashSync(password, 10);
   const user = getUserByEmail(email, users);
   if (!user) {
     res.sendStatus(403);
+    return;
   }
-  // Below is not working ... no idea
-  // bcrypt.compareSync(user.password, hashedPassword, (err, result) => {
-  //   if (result) {
-  //     res.sendStatus(403);
-  //     }
-  //     res.cookie("user_id", user.id );
-  //     res.redirect("/urls");
-  // });
-  // if (!bcrypt.compareSync( password, hashedPassword)){
-  //   req.session.user_id = user.id;
-  //   res.redirect("/urls");
-  // }
-  bcrypt.compare(password, user.password, (err, result) => {
-    if (!result) {
-      return res.sendStatus(403);
-    }
+  if (bcrypt.compareSync(password, user.password)) {
     req.session.user_id = user.id;
     res.redirect("/urls");
-  });
+  } else {
+    res.sendStatus(403);
+  }
+  // bcrypt.compare(password, user.password, (err, result) => {
+  //   if (!result) {
+  //     return res.sendStatus(403);
+  //   }
+  //   req.session.user_id = user.id;
+  //   res.redirect("/urls");
+  // });
 });
 
 // register
@@ -134,24 +128,35 @@ app.post("/register", (req, res) => {
   //const password = "purple-monkey-dinosaur"; // found in the req.params object
   const password = req.body.password;
   const email = req.body.email;
+  const hashedPassword = bcrypt.hashSync(password, 10);
   if (getUserByEmail(email, users)) {
     res.sendStatus(400);
+    return;
   }
   if (email.length < 1 || password.length < 1) {
     res.sendStatus(400);
+    return;
   }
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(password, salt, (err, hash) => {
-      const id = generateRandomString();
-      users[id] = {
-        id,
-        email,
-        password: hash
-      };
-      req.session.user_id = id;
-      res.redirect("/urls");
-    });
-  });
+  // bcrypt.genSalt(10, (err, salt) => {
+  //   bcrypt.hash(password, salt, (err, hash) => {
+  //     const id = generateRandomString();
+  //     users[id] = {
+  //       id,
+  //       email,
+  //       password: hash
+  //     };
+  //     req.session.user_id = id;
+  //     res.redirect("/urls");
+  //   });
+  // });
+  const id = generateRandomString();
+  users[id] = {
+    id,
+    email,
+    password: hashedPassword
+  };
+  req.session.user_id = id;
+  res.redirect("/urls");
 });
 
 // -- get -- //
@@ -173,9 +178,6 @@ app.get("/set", (req, res) => {
   res.send(`a = ${a}`);
 });
 
-app.get("/fetch", (req, res) => {
-  res.send(`a = ${a}`);
-});
 
 app.get("/urls/new", (req, res) => {
   const userID = req.session["user_id"];
@@ -202,7 +204,7 @@ app.get("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.session["user_id"];
   const user = users[userID];
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user };
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] ? urlDatabase[req.params.shortURL].longURL : '', user };
   res.render("urls_show", templateVars);
 });
 
@@ -222,7 +224,6 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL].longURL;
   res.redirect(urlDatabase[req.params.shortURL].longURL);
 });
 
