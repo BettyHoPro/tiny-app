@@ -2,16 +2,20 @@ const express = require("express");
 const app = express();
 const PORT = 3000; 
 const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 //const bcrypt = require('bcryptjs');// if running out side of vm 
 // const morgan = require('morgan');// to see what is the get value in terminal 
 
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 // app.use(morgan('dev'));
 app.use(express.static('public'));// for css or js
+app.use(cookieSession({
+  name: 'session',
+  keys: ["this is a bubble tea shop"],
+}))
 
 // const urlDatabase = {
 //   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -85,7 +89,7 @@ app.listen(PORT, (req) => {
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
-  urlDatabase[shortURL] = {longURL: longURL, userID: req.cookies.user_id};
+  urlDatabase[shortURL] = {longURL: longURL, userID: req.session.user_id};
   res.redirect(`/urls/${shortURL}`);         
 });
 
@@ -124,12 +128,15 @@ app.post("/login", (req, res) => {
   //     res.cookie("user_id", user.id );
   //     res.redirect("/urls");  
   // });
-  
+  // if (!bcrypt.compareSync( password, hashedPassword)){
+  //   req.session.user_id = user.id;
+  //   res.redirect("/urls");
+  // }
   bcrypt.compare(password, user.password, (err, result) => {
     if (!result) {
       return res.sendStatus(403);
     }
-    res.cookie("user_id", user.id );
+    req.session.user_id = user.id;
     res.redirect("/urls");
   });
 });
@@ -154,8 +161,7 @@ app.post("/register", (req, res) => {
         email, 
         password: hash
       };
-      res.cookie("user_id", id);
-      console.log(users);
+      req.session.user_id = id;
       res.redirect("/urls");
     })
   });
@@ -185,7 +191,7 @@ app.get("/fetch", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session["user_id"];
   const user = users[ userID ];
   const templateVars = {  user };
   res.render("urls_new", templateVars);
@@ -194,7 +200,7 @@ app.get("/urls/new", (req, res) => {
 // ---- here --- //
 app.get("/urls", (req, res) => {
   // add user name 
-  const userID = req.cookies["user_id"];
+  const userID = req.session["user_id"];
   if(!userID){
     res.redirect("/login")
     return
@@ -207,21 +213,22 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session["user_id"];
   const user = users[userID];
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user };
   res.render("urls_show", templateVars);
 });
 
 app.get("/register", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session["user_id"];
   const user = users[userID];
   const templateVars = { user };
   res.render("register",  templateVars);
 });
 
 app.get("/login", (req, res) => {
-  const userID = req.cookies["user_id"];
+  //req.session.user_id = user_id;
+  const userID = req.session["user_id"];
   const user = users[userID];
   const templateVars = { user };
   res.render("login",  templateVars);
@@ -241,7 +248,7 @@ app.get("/hello", (req, res) => {
 
 /// log out
 app.get("/logout", (req, res) => {
-  res.clearCookie("user_id");
+  req.session = null; // clear the cookie
   res.redirect("/urls");
 });
 
