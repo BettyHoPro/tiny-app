@@ -4,6 +4,6 @@ function getUserByEmail(email, users) {
       return users[userID];
     }
   }
-};
+}
 
-module.exports = getUserByEmail ;
+module.exports = getUserByEmail;

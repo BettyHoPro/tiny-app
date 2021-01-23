@@ -60,17 +60,9 @@ const users = {
   }
 };
 
-function generateRandomString(stringInLength) {
+const generateRandomString = function() {
   return Math.random().toString(36).replace("0.","").substring(0,6);
-}
-
-function pwCheckOut(password, users) {
-  for (let userID in users) {
-    if (users[userID].password === password) {
-      return users[userID].id;
-    }
-  }
-}
+};
 
 // --Event Listener --//
 app.listen(PORT, (req) => {
