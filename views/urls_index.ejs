@@ -11,7 +11,13 @@
 <body>     
   <%- include('partials/_header') %>
   <main style="margin: 1em;">
+    <tr>
     <h3>My URLs</h3>
+    <!-- <a href="urls_new.ejs" method="GET" action="/urls/new">Create a New Short Link</a> -->
+    <form method="GET" action="/urls/new">
+      <input class="index_btn_link" type="submit" value="Create a New Short Link" >
+    </form>
+    </tr>
     <table class="table">
       <thead>
         <tr>

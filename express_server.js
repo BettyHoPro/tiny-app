@@ -161,8 +161,12 @@ app.post("/register", (req, res) => {
 
 // -- get -- //
 app.get("/", (req, res) => {
-  //console.log(req.cookies);
-  res.send("Hello!");
+  const userID = req.session["user_id"];
+  if (!userID) {
+    res.redirect("/login");
+    return;
+  }
+  res.redirect("/urls");
 });
 
 app.get("/urls.json",(req, res) => {

@@ -40,6 +40,14 @@
   border:2px rgb(216, 48, 48) solid;
   border-radius:5px;
 }
+.index_btn_link{
+  padding: 0px 18px;
+  color:rgb(19, 120, 252);
+  background-color:#ffffff; 
+  border:0px #ffffff none ;
+  border-radius:5px;
+  margin-left: 0px;
+}
 
 /* register */
 
